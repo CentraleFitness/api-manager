@@ -1,0 +1,18 @@
+{
+    "smtp": {
+        "host": "",
+        "port": 0,
+        "username": "",
+        "password": ""
+    },
+    "sender": {
+        "name": "",
+        "user": "",
+        "domain": ""
+    },
+    "recipient": {
+        "name": "",
+        "user": "",
+        "domain": ""
+    }
+}

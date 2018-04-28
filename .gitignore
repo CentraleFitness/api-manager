@@ -1,0 +1,7 @@
+./email/settings.json
+./email/venv/
+./email/env/
+./email/.env/
+./email/.vscode/
+./email/__pycache__/
+
