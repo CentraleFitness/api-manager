@@ -32,6 +32,17 @@ def save_email_render(body: str, path: str=EMAIL_RENDER_PATH) -> None:
         fh.write(body)
 
 def main():
+    parser = argparse.ArgumentParser(prog="html_email.py")
+    parser.add_argument(
+        '-r',
+        '--render',
+        action='store_true',
+        help='save the generated html email into a file')
+    parser.add_argument(
+        '--no-send',
+        action='store_true',
+        help="doesn't send the email")
+    args = parser.parse_args()
     with open(SETTINGS_FILE_PATH, 'r') as fhandler:
         settings = json.load(fhandler)
     sender = Address(
@@ -45,13 +56,16 @@ def main():
     subject = "Test email"
     # BODY_PLAIN_TEXT = "This is a test"
     body_html = format_email(read_email_template(), generate_API_key())
-    save_email_render(body_html)
+    if args.render:
+        save_email_render(body_html)
     message = MIMEMultipart('alternative')
     message['From'] = str(sender)
     message['To'] = str(recipient)
     message['Subject'] = subject
     # message.attach(MIMEText(BODY_PLAIN_TEXT, 'plain'))
     message.attach(MIMEText(body_html, 'html'))
+    if args.no_send:
+        return
     with smtplib.SMTP(settings['smtp']['host'], settings['smtp']['port']) as smtp:
         smtp.starttls()
         smtp.login(settings['smtp']['username'], settings['smtp']['password'])
