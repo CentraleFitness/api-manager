@@ -5,3 +5,6 @@
 ./email/.vscode/
 ./email/__pycache__/
 
+email/settings.json
+email/.vscode/settings.json
+email/.vscode/launch.json

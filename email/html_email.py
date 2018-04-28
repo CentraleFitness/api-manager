@@ -56,7 +56,7 @@ def main():
         smtp.starttls()
         smtp.login(settings['smtp']['username'], settings['smtp']['password'])
         smtp.send_message(message)
-        print("message sended")
+        print("message sent")
 
 if __name__ == "__main__":
     main()
