@@ -14,3 +14,5 @@ email/.vscode/launch.json
 *.sln
 *.pyproj
 /showcase/settings.json
+/showcase/showcase/__pycache__
+/showcase/showcase.pyproj.user

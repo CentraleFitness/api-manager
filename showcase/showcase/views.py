@@ -3,7 +3,7 @@ Routes and views for the flask application.
 """
 
 from datetime import datetime
-from flask import render_template
+from flask import render_template, request, jsonify
 from showcase import app
 
 @app.route('/')
@@ -35,3 +35,13 @@ def about():
         year=datetime.now().year,
         message='Your application description page.'
     )
+
+@app.route('/list', methods=['GET'])
+def list_gyms():
+    if request.method == 'GET':
+        data = [
+            ['Keep Cool Marseille La Joliette', (43.310449, 5.370846)],
+            ['NeoNess Marseille-Vieux Port', (43.299801, 5.370921)]
+            ]
+        return jsonify(data)
+    return jsonify({'status': 'ko', 'reason': 'POST not supported'})
