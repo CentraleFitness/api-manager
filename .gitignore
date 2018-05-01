@@ -8,3 +8,9 @@
 email/settings.json
 email/.vscode/settings.json
 email/.vscode/launch.json
+/.vs/api-manager/v15
+/showcase/.vs/showcase/v15
+/showcase/venv
+*.sln
+*.pyproj
+/showcase/settings.json
