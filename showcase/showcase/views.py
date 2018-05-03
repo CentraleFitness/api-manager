@@ -16,32 +16,32 @@ def home():
         year=datetime.now().year,
     )
 
-@app.route('/contact')
-def contact():
-    """Renders the contact page."""
-    return render_template(
-        'contact.html',
-        title='Contact',
-        year=datetime.now().year,
-        message='Your contact page.'
-    )
-
-@app.route('/about')
-def about():
-    """Renders the about page."""
-    return render_template(
-        'about.html',
-        title='About',
-        year=datetime.now().year,
-        message='Your application description page.'
-    )
-
 @app.route('/list', methods=['GET'])
 def list_gyms():
-    if request.method == 'GET':
-        data = [
-            ['Keep Cool Marseille La Joliette', (43.310449, 5.370846)],
-            ['NeoNess Marseille-Vieux Port', (43.299801, 5.370921)]
-            ]
-        return jsonify(data)
-    return jsonify({'status': 'ko', 'reason': 'POST not supported'})
+    data = [
+        ['Keep Cool Marseille La Joliette', (43.310449, 5.370846)],
+        ['NeoNess Marseille-Vieux Port', (43.299801, 5.370921)]
+        ]
+    return jsonify(data)
+
+@app.route('/notification', methods=['POST'])
+def notification_add_recipient():
+    try:
+        city = request.form['city']
+        email = request.form['email']
+    except KeyError:
+        return jsonify({'status': 'ko', 'reason': 'does not meet requirements'})
+    # Add city and email to the cluster
+    return jsonify({'status': 'ok'})
+
+@app.route('/newsletter', methods=['POST'])
+def newsletter_add_recipient():
+    try:
+        # Determine the fields to handle
+        firstname = request.form['firstname']
+        lastname = request.form['lastname']
+        email = request.form['email']
+    except KeyError:
+        return jsonify({'status': 'ko', 'reason': 'does not meet requirements'})
+    # Send the data to the cluster
+    return jsonify({'status': 'ok'})
