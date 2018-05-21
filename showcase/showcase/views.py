@@ -4,6 +4,7 @@ Routes and views for the flask application.
 
 from datetime import datetime
 from flask import render_template, request, jsonify
+
 from showcase import app
 
 @app.route('/')
