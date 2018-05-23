@@ -16,3 +16,6 @@ email/.vscode/launch.json
 /showcase/settings.json
 /showcase/showcase/__pycache__
 /showcase/showcase.pyproj.user
+/email/.vs/email/v15
+/email/email_api/__pycache__
+/email/venv
