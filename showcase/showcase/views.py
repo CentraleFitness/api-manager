@@ -2,6 +2,8 @@
 Routes and views for the flask application.
 """
 
+import json
+
 from datetime import datetime
 from flask import render_template, request, jsonify
 
@@ -30,8 +32,12 @@ def list_gyms():
 @app.route('/notification', methods=['POST'])
 def notification_add_recipient():
     try:
-        city = request.form['city'].lower()
-        email = request.form['email']
+        print(request.data)
+        raw_data = request.data.decode('utf-8')
+        json_data = json.loads(raw_data).get('user')
+        print(json_data)
+        city = json_data['city'].lower()
+        email = json_data['email']
     except KeyError:
         return jsonify({'status': 'ko', 'reason': 'does not meet requirements'})
     db = MongoCollection('proximity_notification', 'centralefitness', 'localhost', 27017)
