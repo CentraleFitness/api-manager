@@ -6,6 +6,8 @@ from datetime import datetime
 from flask import render_template, request, jsonify
 
 from showcase import app
+from showcase.models import MongoCollection
+
 
 @app.route('/')
 @app.route('/home')
@@ -28,11 +30,14 @@ def list_gyms():
 @app.route('/notification', methods=['POST'])
 def notification_add_recipient():
     try:
-        city = request.form['city']
+        city = request.form['city'].lower()
         email = request.form['email']
     except KeyError:
         return jsonify({'status': 'ko', 'reason': 'does not meet requirements'})
-    # Add city and email to the cluster
+    db = MongoCollection('proximity_notification', 'centralefitness', 'localhost', 27017)
+    ret = db.collection.insert_one({'email': email, 'city': city})
+    if ret.acknowledged != True:
+        return jsonify({'status': 'ko', 'reason': 'insert failed'})
     return jsonify({'status': 'ok'})
 
 @app.route('/newsletter', methods=['POST'])
