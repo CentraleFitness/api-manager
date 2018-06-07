@@ -5,21 +5,12 @@ Routes and views for the flask application.
 import json
 
 from datetime import datetime
-from flask import render_template, request, jsonify
+from flask import request
 
 from showcase import app
 from showcase.models import MongoCollection
+from showcase.content import render_json_resp
 
-
-@app.route('/')
-@app.route('/home')
-def home():
-    """Renders the home page."""
-    return render_template(
-        'index.html',
-        title='Home Page',
-        year=datetime.now().year,
-    )
 
 @app.route('/list', methods=['GET'])
 def list_gyms():
@@ -27,7 +18,7 @@ def list_gyms():
         ['Keep Cool Marseille La Joliette', (43.310449, 5.370846)],
         ['NeoNess Marseille-Vieux Port', (43.299801, 5.370921)]
         ]
-    return jsonify(data)
+    return render_json_resp(data=data)
 
 @app.route('/notification', methods=['POST'])
 def notification_add_recipient():
@@ -39,12 +30,15 @@ def notification_add_recipient():
         city = json_data['city'].lower()
         email = json_data['email']
     except KeyError:
-        return jsonify({'status': 'ko', 'reason': 'does not meet requirements'})
-    db = MongoCollection('proximity_notification', 'centralefitness', 'localhost', 27017)
+        return render_json_resp(status_code=400)
+    db = MongoCollection(
+        'proximity_notification',
+        'centralefitness',
+        'localhost', 27017)
     ret = db.collection.insert_one({'email': email, 'city': city})
     if ret.acknowledged != True:
-        return jsonify({'status': 'ko', 'reason': 'insert failed'})
-    return jsonify({'status': 'ok'})
+        return render_json_resp(status_code=500, reason='insert failed')
+    return render_json_resp()
 
 @app.route('/newsletter', methods=['POST'])
 def newsletter_add_recipient():
@@ -54,6 +48,6 @@ def newsletter_add_recipient():
         lastname = request.form['lastname']
         email = request.form['email']
     except KeyError:
-        return jsonify({'status': 'ko', 'reason': 'does not meet requirements'})
+        return render_json_resp(status_code=400)
     # Send the data to the cluster
-    return jsonify({'status': 'ok'})
+    return render_json_resp()

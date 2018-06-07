@@ -19,3 +19,6 @@ email/.vscode/launch.json
 /email/.vs/email/v15
 /email/email_api/__pycache__
 /email/venv
+/showcase/flask
+/showcase/obj
+/showcase/bin
