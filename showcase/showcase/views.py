@@ -23,10 +23,8 @@ def list_gyms():
 @app.route('/notification', methods=['POST'])
 def notification_add_recipient():
     try:
-        print(request.data)
         raw_data = request.data.decode('utf-8')
         json_data = json.loads(raw_data).get('user')
-        print(json_data)
         city = json_data['city'].lower()
         email = json_data['email']
     except KeyError:
@@ -43,10 +41,11 @@ def notification_add_recipient():
 @app.route('/newsletter', methods=['POST'])
 def newsletter_add_recipient():
     try:
-        # Determine the fields to handle
-        firstname = request.form['firstname']
-        lastname = request.form['lastname']
-        email = request.form['email']
+        raw_data = request.data.decode('utf-8')
+        json_data = json.loads(raw_data).get('user')
+        firstname = json_data['firstname']
+        lastname = json_data['lastname']
+        email = json_data['email']
     except KeyError:
         return render_json_resp(status_code=400)
     # Send the data to the cluster
